@@ -10,10 +10,8 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     if @post.save
-
       redirect_to posts_path, notice: "ツイートしました！"
     else
-
       render :new
     end
   end
@@ -35,9 +33,22 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+    @post = Post.find(params[:id])
+    if @post.destroy
+      redirect_to posts_path, notice:"ツイートを削除しました！"
+    else
+      render :index
+    end
+  end
+
   private
 
   def post_params
     params.require(:post).permit(:content)
+  end
+
+  def set_post
+    @post = Post.find(params[:id])
   end
 end
